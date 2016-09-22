@@ -1,4 +1,7 @@
 <?php
+
+session_start();//activating the mecanism of a new session
+
 $db_user = "ipd8blog";
 $db_name = "ipd8blog";
 $db_password = "FSBfG6jQX9cAbYce";

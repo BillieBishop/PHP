@@ -7,8 +7,8 @@ function getRegisterForm($nn = '', $mm = '', $p1 = '', $p2 = '') {
 <form method="POST">
     Name:<input type="text" name="name" value="$nn"><br><br>
     Email:<input type="text" name="email" value="$mm"><br><br>
-    Password:<input type="text" name="password" value="$p1"><br><br>
-    Password(retype):<input type="text" name="password2" value="$p2"><br><br>        
+    Password:<input type="password" name="password" value="$p1"><br><br>
+    Password(retype):<input type="password" name="password2" value="$p2"><br><br>        
     <input type="submit" value="Register">
 </form>
 ENDTAG;
@@ -53,7 +53,7 @@ if (!isset($_POST['name'])) {
         //password check: 8 caracters minimum
         if (strlen($name) < 8) {
             array_push($errorList, "Password must be at least 8 characters long.");
-        }
+        }else{
 
         //password check: containing at least 1 lowercase, 1 uppercase, 1 number and 1 special character       
         $regexPassword = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~!#$%^&*()+=<>?]).+$/';
@@ -64,6 +64,7 @@ if (!isset($_POST['name'])) {
         //password check: password2 the same as first password
         else if (!$password2 === $password) {
             array_push($errorList, "Both passwords must be the same.");
+        }
         }
 
         //email check: existing email from database    

@@ -3,12 +3,12 @@
 require_once 'db.php';
 
 //heredoc
-function getLoginForm($email = '', $password = '') {
+function getLoginForm() {
     $f = <<< ENDTAG
 <h3>Login user</h3>
 <form method="POST">    
-    Email:<input type="text" name="email" value="$email"><br><br>
-    Password:<input type="password" name="password" value="$password"><br><br>       
+    Email:<input type="text" name="email"><br><br>
+    Password:<input type="password" name="password"><br><br>       
     <input type="submit" value="Login">
 </form>
 ENDTAG;
@@ -29,7 +29,7 @@ if (!isset($_POST['email'])) {
     $query = sprintf("SELECT * FROM users WHERE email = '%s'", mysqli_escape_string($conn, $email));
     $result = mysqli_query($conn, $query);
     if (!$result) {
-        die("Error executing query: " . mysqli_error($result));
+        die("Error executing query [$query]: " . mysqli_error($conn));
     }
 
     $numOfRows = mysqli_num_rows($result);
@@ -43,7 +43,7 @@ if (!isset($_POST['email'])) {
             //login successful            
             unset($row['password']);
             $_SESSION['user']=$row;
-            echo "Login successful. ".'<a href = "index.php">index</a>';
+            echo "Login successful. ".'<a href = "index.php">Click to continue</a>';
         } else {
             echo "Login failed.";
             echo getLoginForm();

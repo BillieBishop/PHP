@@ -67,15 +67,7 @@ if (!isset($_POST['name'])) {
             array_push($errorList, "Both passwords must be the same.");
         }
     }
-
-    //email check: existing email from database    
-    $query = "SELECT email FROM users WHERE email = '$email'";
-    $result = mysqli_query($conn, $query);
-    $numOfRows = mysqli_num_rows($result);
-    if ($numOfRows == 1) {
-        echo"You are already registered.";
-        echo getRegisterForm();
-    }
+    
     //we check if array of errors is empty (so we validated all) empty array=false
     if ($errorList) {
         //State 3: submission failed - problem found
@@ -94,7 +86,7 @@ if (!isset($_POST['name'])) {
             die("Error executing query [$sql] : " . mysqli_error($conn));
         } else {
             echo "Submission successful.";
-            echo getRegisterForm();
+            echo '<a href="login.php">Click to login</a>';
         }
     }
 }

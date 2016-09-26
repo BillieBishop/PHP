@@ -2,7 +2,7 @@
 
 require_once 'db.php';
 
-if(isset($GET['id'])){
+if(!isset($GET['id'])){
     die("No article to view.");
 }
 
@@ -27,7 +27,7 @@ $imagePath = $row['imagePath'];
 
 echo "<h3>$title</h3>";
 echo "<p><b>Posted by</b>$author at $pubDate</p><br><br>";
-echo sprintf("<img src = '%s'>", $imagePath);
+echo sprintf('<img src = "%s">', $imagePath);
 echo "<p>$body</p>";
 
 

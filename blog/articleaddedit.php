@@ -14,9 +14,13 @@ if (!isset($_SESSION['user'])) {
 }
 
 function getArticleAddEditForm($title = '', $body = '') {
+    $authorID=$_SESSION['user']['name'];
+    $pubDate = date("Y-m-d");
     $f = <<< ENDTAG
 <h3>Post your article</h3>
 <form method="POST" enctype="multipart/form-data">
+    Author:<input type="text" name="author" value="$authorID"><br><br>
+    Date:<input type="text" name="pubDate" value="$pubDate"><br><br>        
     Picture:<input type="file" name="picFile"><br><br>            
     Title:<input type="text" name="title" value = "$title"><br><br>
     Article:<textarea rows="4" cols="50" name="body" value = "$body"></textarea><br><br>

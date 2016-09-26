@@ -4,7 +4,7 @@
 require_once 'db.php';
 if (isset($_SESSION['user'])) {
     echo "Welcome " . $_SESSION['user']['name'] . "!<br>";
-    echo 'You may <a href = "logout.php">Logout</a>' . ' or <a href="articleaddedit.php">Post an article</a>';
+    echo 'You may <a href = "logout.php">Logout</a>' . ' or <a href="articleaddedit.php">Post/Edit an article</a>';
 } else {
     echo "You are not logged in.<br>";
     echo '<a href = "login.php">Login</a> or <a href = "register.php">Register</a>';
@@ -26,5 +26,5 @@ foreach ($dataRows as $row){
     $pubDate = $row['pubDate'];
     $title = htmlspecialchars($row['title']);
     $body=  htmlspecialchars($row['body']);
-    echo '<li>$title $author $pubDate<a href = \"articleview.php?id=$ID\">View Article</a></li>';
+    echo "<li>$title: $author, $pubDate<a href = \"articleview.php?id=$ID\">View Article</a></li>";
 }

@@ -31,20 +31,22 @@ echo sprintf('<img src = "%s">', $imagePath);
 echo "<p>$body</p>";
 
 
+$query = sprintf("SELECT * FROM comments, articles WHERE articles.ID=comments.articleID AND articles.ID = '%s'", mysqli_escape_string($conn, $_GET['id']));
+$result = mysqli_query($conn, $sql);
 
+if(!$result){
+    die("Error executing query [$query] : ".mysqli_error($conn));
+}
 
+$row = mysqli_fetch_assoc($result);
 
-
-
-
-
-
-
-
-
-
-
-
+if(!$row){
+    echo("No comment was found.");
+}else{
+$authorID = $row['authorID'];
+$body = htmlspecialchars($row['body']);
+$pubTimestamp = $row['pubTimestamp'];
+}
 function getAddCommentForm($body='') {
     $authorID=$_SESSION['user']['name'];
     $pubTimestamp = date("Y-m-d G:i:s");

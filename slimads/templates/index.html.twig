@@ -1,0 +1,21 @@
+{# empty Twig template #}
+<a href="index.php/postadform">Post ad</a><br><br>
+
+{% if adList %}
+    <table border="1">
+        <tr>
+            <th>ID</th><th>Message</th><th>Price</th><th>Contact email</th>
+        </tr>
+        {% for ad in adList %}
+            <tr>
+                <td>{{ad.ID}}</td>
+                <td>{{ad.msg}}</td>
+                <td>{{ad.price}}</td>
+                <td>{{ad.contactEmail}}</td>
+                <td><a href='index.php/postadform:{{ad.ID}}'>Edit ad</td>
+            </tr>
+        {% endfor %}            
+    </table>        
+{% else %}
+    No ads have been found.
+{% endif %}

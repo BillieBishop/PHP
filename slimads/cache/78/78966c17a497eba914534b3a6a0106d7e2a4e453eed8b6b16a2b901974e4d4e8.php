@@ -16,7 +16,7 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 2
-        echo "<a href=\"index.php/postadform\">Post ad</a><br><br>
+        echo "<a href=\"/postadform\">Post ad</a><br><br>
 
 ";
         // line 4
@@ -24,47 +24,51 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
             // line 5
             echo "    <table border=\"1\">
         <tr>
-            <th>ID</th><th>Message</th><th>Price</th><th>Contact email</th>
+            <th>ID</th>
+            <th>Message</th>
+            <th>Price</th>
+            <th>Contact email</th>
+            <th></th>
         </tr>
         ";
-            // line 9
+            // line 13
             $context['_parent'] = $context;
             $context['_seq'] = twig_ensure_traversable((isset($context["adList"]) ? $context["adList"] : null));
             foreach ($context['_seq'] as $context["_key"] => $context["ad"]) {
-                // line 10
+                // line 14
                 echo "            <tr>
                 <td>";
-                // line 11
+                // line 15
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "ID", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 12
+                // line 16
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "msg", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 13
+                // line 17
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "price", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 14
+                // line 18
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "contactEmail", array()), "html", null, true);
                 echo "</td>
-                <td><a href='index.php/postadform:";
-                // line 15
+                <td><a href=\"/postadform/";
+                // line 19
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "ID", array()), "html", null, true);
-                echo "'>Edit ad</td>
+                echo "\">Edit ad</td>
             </tr>
         ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['ad'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 17
+            // line 21
             echo "            
     </table>        
 ";
         } else {
-            // line 20
+            // line 24
             echo "    No ads have been found.
 ";
         }
@@ -82,18 +86,22 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
 
     public function getDebugInfo()
     {
-        return array (  68 => 20,  63 => 17,  54 => 15,  50 => 14,  46 => 13,  42 => 12,  38 => 11,  35 => 10,  31 => 9,  25 => 5,  23 => 4,  19 => 2,);
+        return array (  72 => 24,  67 => 21,  58 => 19,  54 => 18,  50 => 17,  46 => 16,  42 => 15,  39 => 14,  35 => 13,  25 => 5,  23 => 4,  19 => 2,);
     }
 
     public function getSource()
     {
         return "{# empty Twig template #}
-<a href=\"index.php/postadform\">Post ad</a><br><br>
+<a href=\"/postadform\">Post ad</a><br><br>
 
 {% if adList %}
     <table border=\"1\">
         <tr>
-            <th>ID</th><th>Message</th><th>Price</th><th>Contact email</th>
+            <th>ID</th>
+            <th>Message</th>
+            <th>Price</th>
+            <th>Contact email</th>
+            <th></th>
         </tr>
         {% for ad in adList %}
             <tr>
@@ -101,7 +109,7 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
                 <td>{{ad.msg}}</td>
                 <td>{{ad.price}}</td>
                 <td>{{ad.contactEmail}}</td>
-                <td><a href='index.php/postadform:{{ad.ID}}'>Edit ad</td>
+                <td><a href=\"/postadform/{{ad.ID}}\">Edit ad</td>
             </tr>
         {% endfor %}            
     </table>        

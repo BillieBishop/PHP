@@ -1,0 +1,4 @@
+[2016-09-28 21:08:58] main.ERROR: SQL error: Duplicate entry 'mary.pickford@yahoo.com' for key 'email' [] []
+[2016-09-28 21:08:58] main.ERROR:  in query: INSERT INTO `users` (`name`,`email`,`password`) VALUES ('Mary Pickford', 'mary.pickford@yahoo.com', '98765Rr%') [] []
+[2016-09-28 21:09:15] main.ERROR: SQL error: Duplicate entry 'mary.pickford@yahoo.com' for key 'email' [] []
+[2016-09-28 21:09:15] main.ERROR:  in query: INSERT INTO `users` (`name`,`email`,`password`) VALUES ('Mary Pickford', 'mary.pickford@yahoo.com', '98765Rr%') [] []

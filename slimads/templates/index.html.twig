@@ -1,4 +1,8 @@
-{# empty Twig template #}
+{% extends "master.html.twig" %}
+
+{% block title %}All ads{% endblock %}
+
+{% block content %}
 <a href="/postadform">Post ad</a><br><br>
 
 {% if adList %}
@@ -16,10 +20,13 @@
                 <td>{{ad.msg}}</td>
                 <td>{{ad.price}}</td>
                 <td>{{ad.contactEmail}}</td>
-                <td><a href="/postadform/{{ad.ID}}">Edit ad</td>
+                <td width="55"><a href="/postadform/{{ad.ID}}">Edit ad</td>
             </tr>
         {% endfor %}            
-    </table>        
+    </table> 
+<br>
 {% else %}
     No ads have been found.
 {% endif %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+/* 
+    Created on : Sep 28, 2016, 12:41:30 PM
+    Author     : Nathalie Desrosiers
+*/
+
+body{
+    background-color: #ffffcc;
+}
+
+#centerContent{
+    width: 750px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: white;
+}

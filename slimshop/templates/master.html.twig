@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>   
+        <link rel="stylesheet" href="/styles.css" />
+        <title>{% block title %}{% endblock %}</title>
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="centerContent">
+            <div id="content">{% block content %}{% endblock %}</div>
+            <div id="footer">
+                <br><br>
+                    &copy; Copyright 2016 by <a href="http://www.nathalie.desrosiers.net">Nathalie Desrosiers</a>.         
+            </div>
+        </div>
+    </body>
+</html>

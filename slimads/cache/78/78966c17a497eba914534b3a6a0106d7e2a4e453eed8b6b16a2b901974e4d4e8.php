@@ -7,21 +7,40 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
     {
         parent::__construct($env);
 
-        $this->parent = false;
-
+        // line 1
+        $this->parent = $this->loadTemplate("master.html.twig", "index.html.twig", 1);
         $this->blocks = array(
+            'title' => array($this, 'block_title'),
+            'content' => array($this, 'block_content'),
         );
+    }
+
+    protected function doGetParent(array $context)
+    {
+        return "master.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        // line 2
+        $this->parent->display($context, array_merge($this->blocks, $blocks));
+    }
+
+    // line 3
+    public function block_title($context, array $blocks = array())
+    {
+        echo "All ads";
+    }
+
+    // line 5
+    public function block_content($context, array $blocks = array())
+    {
+        // line 6
         echo "<a href=\"/postadform\">Post ad</a><br><br>
 
 ";
-        // line 4
+        // line 8
         if ((isset($context["adList"]) ? $context["adList"] : null)) {
-            // line 5
+            // line 9
             echo "    <table border=\"1\">
         <tr>
             <th>ID</th>
@@ -31,30 +50,30 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
             <th></th>
         </tr>
         ";
-            // line 13
+            // line 17
             $context['_parent'] = $context;
             $context['_seq'] = twig_ensure_traversable((isset($context["adList"]) ? $context["adList"] : null));
             foreach ($context['_seq'] as $context["_key"] => $context["ad"]) {
-                // line 14
+                // line 18
                 echo "            <tr>
                 <td>";
-                // line 15
+                // line 19
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "ID", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 16
+                // line 20
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "msg", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 17
+                // line 21
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "price", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 18
+                // line 22
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "contactEmail", array()), "html", null, true);
                 echo "</td>
-                <td><a href=\"/postadform/";
-                // line 19
+                <td width=\"55\"><a href=\"/postadform/";
+                // line 23
                 echo twig_escape_filter($this->env, $this->getAttribute($context["ad"], "ID", array()), "html", null, true);
                 echo "\">Edit ad</td>
             </tr>
@@ -63,15 +82,19 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['ad'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 21
+            // line 25
             echo "            
-    </table>        
+    </table> 
+<br>
 ";
         } else {
-            // line 24
+            // line 29
             echo "    No ads have been found.
 ";
         }
+        // line 31
+        echo "
+";
     }
 
     public function getTemplateName()
@@ -86,12 +109,16 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
 
     public function getDebugInfo()
     {
-        return array (  72 => 24,  67 => 21,  58 => 19,  54 => 18,  50 => 17,  46 => 16,  42 => 15,  39 => 14,  35 => 13,  25 => 5,  23 => 4,  19 => 2,);
+        return array (  96 => 31,  92 => 29,  86 => 25,  77 => 23,  73 => 22,  69 => 21,  65 => 20,  61 => 19,  58 => 18,  54 => 17,  44 => 9,  42 => 8,  38 => 6,  35 => 5,  29 => 3,  11 => 1,);
     }
 
     public function getSource()
     {
-        return "{# empty Twig template #}
+        return "{% extends \"master.html.twig\" %}
+
+{% block title %}All ads{% endblock %}
+
+{% block content %}
 <a href=\"/postadform\">Post ad</a><br><br>
 
 {% if adList %}
@@ -109,13 +136,16 @@ class __TwigTemplate_8eb61fe81febbf328c97e691b381d0c25939bf707b8ddfb79d650fafafe
                 <td>{{ad.msg}}</td>
                 <td>{{ad.price}}</td>
                 <td>{{ad.contactEmail}}</td>
-                <td><a href=\"/postadform/{{ad.ID}}\">Edit ad</td>
+                <td width=\"55\"><a href=\"/postadform/{{ad.ID}}\">Edit ad</td>
             </tr>
         {% endfor %}            
-    </table>        
+    </table> 
+<br>
 {% else %}
     No ads have been found.
 {% endif %}
+
+{% endblock %}
 ";
     }
 }

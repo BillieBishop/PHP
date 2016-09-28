@@ -3,16 +3,37 @@
 //enable on-demand class loader
 require_once 'vendor/autoload.php';
 
+//Monolog
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+// create a log channel
+$log = new Logger('main');
+$log->pushHandler(new StreamHandler('logs/everything.log', Logger::DEBUG));
+$log->pushHandler(new StreamHandler('logs/errors.log', Logger::ERROR));
+
+
 DB::$dbName = 'slimads';
 DB::$user = 'slimads';
 DB::$password = 'hBxTsjtSTt5ZWnEQ';
 DB::$error_handler = 'sql_error_handler';
 DB::$nonsql_error_handler = 'nonsql_error_handler';
 
+function nonsql_error_handler($params) {
+    global $app, $log;
+    $log->error("Database error: ".$params['error']);
+    http_response_code(500);
+    $app->render('error_internal.html.twig');
+    die; // don't want to keep going if a query break
+}
+
 function sql_error_handler($params) {
-    echo "Error: " . $params['error'] . "<br>\n";
-    echo "Query: " . $params['query'] . "<br>\n";
-    die;
+    global $app, $log;
+    $log->error("SQL error: ".$params['error']);
+    $log->error(" in query: ".$params['query']);
+    http_response_code(500);
+    $app->render('error_internal.html.twig');
+    die; // don't want to keep going if a query break
 }
 
 // instantiate Slim - router in front controller (this file)
@@ -34,18 +55,13 @@ $view->parserOptions = array(
 
 $view->setTemplatesDirectory(dirname(__FILE__) . '/templates');
 
-function nonsql_error_handler($params) {
-    echo "Error: " . $params['error'] . "<br>\n";
-    die; // don't want to keep going if a query broke
-}
-
 $app->get('/', function ()use ($app) {
     $adList = DB::query('SELECT * FROM ad');
     $app->render('index.html.twig', array('adList' => $adList));
 });
 
 //Submission (function($id='')means 'with optional parameter'
-$app->post('/postadform(/:id)', function($id='') use ($app){
+$app->post('/postadform(/:id)', function($id='') use ($app, $log){
     $msg = $app->request->post('msg');
     $price = $app->request->post('price');
     $contactEmail = $app->request->post('contactEmail');
@@ -99,13 +115,16 @@ $app->post('/postadform(/:id)', function($id='') use ($app){
             'price' => $price,
             'contactEmail' => $contactEmail
         ));
+        $id=DB::insertId();
+        $log->debug("Ad created with ID=".$id);
         }else{
         DB::update('ad', array(
             'msg' => $msg,
             'price' => $price,
             'contactEmail' => $contactEmail
         ), 
-                'ID=%s', $id);    
+                'ID=%s', $id);
+        $log->debug("Ad updated with ID=".$id);
         } 
         //Show the user his creation
         $app->render('postadform_success.html.twig', 

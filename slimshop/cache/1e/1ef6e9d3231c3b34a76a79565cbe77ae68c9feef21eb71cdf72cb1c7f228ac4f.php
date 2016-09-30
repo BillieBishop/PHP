@@ -35,12 +35,10 @@ class __TwigTemplate_4d6f38d74c1f3cb4dc4ac10c7a33bcf425fe222484c351e33c07d3d0585
     public function block_content($context, array $blocks = array())
     {
         // line 6
-        echo "<a href=\"/addproduct\">Add product</a>&nbsp; &nbsp; 
-<a href=\"/register\">Register</a>&nbsp; &nbsp; 
-<a href=\"/login\">Login</a>
+        echo "<a href=\"/login\">Login</a>
 <br><br>
 <p>";
-        // line 10
+        // line 8
         echo twig_escape_filter($this->env, (isset($context["name"]) ? $context["name"] : null), "html", null, true);
         echo " at ";
         echo twig_escape_filter($this->env, (isset($context["email"]) ? $context["email"] : null), "html", null, true);
@@ -62,7 +60,7 @@ class __TwigTemplate_4d6f38d74c1f3cb4dc4ac10c7a33bcf425fe222484c351e33c07d3d0585
 
     public function getDebugInfo()
     {
-        return array (  44 => 10,  38 => 6,  35 => 5,  29 => 3,  11 => 1,);
+        return array (  42 => 8,  38 => 6,  35 => 5,  29 => 3,  11 => 1,);
     }
 
     public function getSource()
@@ -72,8 +70,6 @@ class __TwigTemplate_4d6f38d74c1f3cb4dc4ac10c7a33bcf425fe222484c351e33c07d3d0585
 {% block title %}Registration successful{% endblock %}
 
 {% block content %}
-<a href=\"/addproduct\">Add product</a>&nbsp; &nbsp; 
-<a href=\"/register\">Register</a>&nbsp; &nbsp; 
 <a href=\"/login\">Login</a>
 <br><br>
 <p>{{name}} at {{email}}<br>

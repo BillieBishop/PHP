@@ -7,6 +7,11 @@
 <a href="/register">Register</a>&nbsp; &nbsp; 
 <a href="/login">Login</a>
 <br><br>
+
+{% if sessionUser %}
+{{name}}
+{% endif %}
+
 {% if productList %}
     <table border="1">
         <tr>

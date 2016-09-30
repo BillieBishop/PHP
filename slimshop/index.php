@@ -55,12 +55,29 @@ $view->parserOptions = array(
     'name' => '[A-Za-z-]+'
 ));
 
+//Check if user is in session
+if(!isset($_SESSION['user'])){
+    $_SESSION['user']=array();
+}
+
 $view->setTemplatesDirectory(dirname(__FILE__) . '/templates');
 
 $app->get('/', function ()use ($app) {
     $productList = DB::query('SELECT * FROM products');
-    $app->render('index.html.twig', array('productList' => $productList));
+    $app->render('index.html.twig', 
+            array('productList' => $productList,
+            array('sessionUser' => $_SESSION['user'])    
+                ));
 });
+
+$app->get('/emailexists/:email', function($email) use ($app, $log){
+    $user = DB::queryFirstRow("SELECT ID FROM users WHERE email=%s", $email);
+    if($user){
+        echo "Email already registered";
+        }
+        
+});
+
 
 //////////////////////////////////////////////////////////////////////////////
 //Sate 1: First show REGISTER
@@ -109,7 +126,12 @@ $app->post('/register(/:id)', function($id='') use ($app, $log){
         array_push($errorList,
                 "It doesn't look like a valid email.");        
         unset($valueList['contactEmail']);
+    }else{
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
+    
+    //password check: REGEX
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     //password check: both passwords must be the same
     if (!$password == $password2){
@@ -134,7 +156,7 @@ $app->post('/register(/:id)', function($id='') use ($app, $log){
                 array(
             'name' => $name,
             'email' => $email,
-            'password' => $password
+            'password' => hash('sha256', $password)//////////////////*********
         ));
         $id=DB::insertId();
         $log->debug("User created with ID=".$id);
@@ -159,25 +181,120 @@ $app->post('/login(/:id)', function($id='') use ($app, $log){
     $email = $app->request->post('email');
     $password = $app->request->post('password');
     $name = $app->request->post('name');
-    $valueList = array(
-       
+    $valueList = array(       
         'email' => $email,
         'password' => $password       
         );
-    
-    $loginemail=DB::queryOneRow("SELECT * FROM users WHERE email=%s", $email);
-    if(!$loginemail){
+    //queryFirstRow & queryOneRow do the same
+    $sql=DB::queryOneRow("SELECT * FROM users WHERE email=%s", $email);
+    if(!$sql){
         $app->render("login_notfound.html.twig");        
     }else{
         //Show the registration creation
+        //unset($user['password']);
+        //$_SESSION['user']=$user;
+        $log->debug("User login with ID=". $id."From IP:".$_SERVER['REMOTE_ADDR']);
         $app->render('login_success.html.twig', array(
-            'name' => $loginemail['name'])
+            'name' => $sql['name'])
         );
     }
 });
 
+//////////////////////////////////////////////////////////////////////////////
+//Logout
+$app->get('/logout', function() use ($app, $log){
+    if($_SESSION['user']){
+    unset($_SESSION['user']);
+    }
+    $app->render('logout_success.html.twig');
+});
+    
+//////////////////////////////////////////////////////////////////////////////
+//Sate 1: First show ADD PRODUCT
+$app->get('/addproduct', function() use ($app, $log){
+    $app->render('addproduct.html.twig');
+});
 
+//State 2: Submission ADD PRODUCT
+$app->post('/addproduct(/:id)', function($id='') use ($app, $log){
+    $name = $app->request->post('name');
+    $description = $app->request->post('description');
+    $imagePath = $app->request->post('imagePath');
+    $price = $app->request->post('price');
+    $valueList = array(
+        'name' => $name,
+        'description' => $description,
+        'imagePath' => $imagePath,
+        'price' => $price
+        );
+    
+    $errorList = array();
 
-
+    //name check: must be 100 characters long max
+    if ((strlen($name) < 1) || (strlen($name) > 100)) {
+        array_push($errorList,
+                "Name must be between 1 and 100 characters long.");
+        //unset($valueList['name']);
+    }
+    
+    //description check: must be 500 characters long max
+    if ((strlen($description) < 1) || (strlen($description) > 500)) {
+        array_push($errorList,
+                "Description must be between 1 and 500 characters long.");
+        //unset($valueList['description']);
+    }
+    
+    //imagePath check: must be 250 characters long max
+    if ((strlen($imagePath) < 1) || (strlen($imagePath) > 250)) {
+        array_push($errorList,
+                "Image path must be between 1 and 250 characters long.");
+        //unset($valueList['imagePath']);
+    }
+    
+    //price check: must be 10 characters long max 
+    if ((strlen($price) < 1) || (strlen($price) > 10)) {
+        array_push($errorList,
+                "Price must be between 1 and 10 decimals long.");
+        //unset($valueList['price']);
+    }
+    
+    //price check: price must be numbers
+    if (!is_numeric($price)) {
+        array_push($errorList,
+                "Price must be numbers.");
+        unset($valueList['price']);
+    } 
+    
+    //TODO: Image path checks!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    //List of errors
+    if ($errorList) {
+        //State 3: Failed submission
+        $app->render('addproduct_notfound.html.twig', array(
+            'errorList' => $errorList,
+            'v' => $valueList
+        ));
+    } else {
+        //State 2: Successful submission
+        //inserting into database
+        if($id===''){
+        DB::insert('products', 
+                array(
+        'name' => $name,
+        'description' => $description,
+        'imagePath' => $imagePath,
+        'price' => $price
+        ));
+        $id=DB::insertId();
+        $log->debug("Product created with ID=".$id);
+        }
+        //Show the product creation
+        $app->render('addproduct_success.html.twig', 
+                array(
+            'name' => $name,           
+            'price' => $price
+        ));
+    }
+});
 
 $app->run();

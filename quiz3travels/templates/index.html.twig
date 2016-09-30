@@ -1,0 +1,34 @@
+{% extends "master.html.twig" %}
+
+{% block title %}Bookings{% endblock %}
+
+{% block content %}
+{% if sessionUser %}
+<p>Hi {{name}} ({{passport}})
+{% else %}
+<a href="/register">Register</a>&nbsp; &nbsp; 
+<a href="/login">Login</a>
+{% endif %}
+
+{% if bookingList %}
+    <table border="1">
+        <tr>
+            <th>ID</th>      
+            <th>From</th>
+            <th>To</th>           
+        </tr>
+        {% for products in productList %}
+            <tr>
+                <td>{{bookings.ID}}</td>                
+                <td>{{bookings.fromAirport}}</td>
+                <td>{{bookings.toAirport}}</td>            
+            </tr>
+        {% endfor %}            
+    </table> 
+<br><br>
+{% else %}
+    No bookings have been found.<br>
+<a href="/book">Book a trip</a>
+{% endif %}
+
+{% endblock %}

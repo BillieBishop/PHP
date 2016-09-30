@@ -39,10 +39,21 @@ class __TwigTemplate_4b1c347fcd5bc39914cbfb385266dacc49fc9552f6154c7c8b8eeb06eaa
 <a href=\"/register\">Register</a>&nbsp; &nbsp; 
 <a href=\"/login\">Login</a>
 <br><br>
+
 ";
-        // line 10
+        // line 11
+        if ((isset($context["sessionUser"]) ? $context["sessionUser"] : null)) {
+            // line 12
+            echo twig_escape_filter($this->env, (isset($context["name"]) ? $context["name"] : null), "html", null, true);
+            echo "
+";
+        }
+        // line 14
+        echo "
+";
+        // line 15
         if ((isset($context["productList"]) ? $context["productList"] : null)) {
-            // line 11
+            // line 16
             echo "    <table border=\"1\">
         <tr>
             <th>ID</th>
@@ -52,30 +63,30 @@ class __TwigTemplate_4b1c347fcd5bc39914cbfb385266dacc49fc9552f6154c7c8b8eeb06eaa
             <th>Price</th>
         </tr>
         ";
-            // line 19
+            // line 24
             $context['_parent'] = $context;
             $context['_seq'] = twig_ensure_traversable((isset($context["productList"]) ? $context["productList"] : null));
             foreach ($context['_seq'] as $context["_key"] => $context["products"]) {
-                // line 20
+                // line 25
                 echo "            <tr>
                 <td>";
-                // line 21
+                // line 26
                 echo twig_escape_filter($this->env, $this->getAttribute($context["products"], "ID", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 22
+                // line 27
                 echo twig_escape_filter($this->env, $this->getAttribute($context["products"], "name", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 23
+                // line 28
                 echo twig_escape_filter($this->env, $this->getAttribute($context["products"], "description", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 24
+                // line 29
                 echo twig_escape_filter($this->env, $this->getAttribute($context["products"], "imagePath", array()), "html", null, true);
                 echo "</td>
                 <td>";
-                // line 25
+                // line 30
                 echo twig_escape_filter($this->env, $this->getAttribute($context["products"], "price", array()), "html", null, true);
                 echo "</td>               
             </tr>
@@ -84,17 +95,17 @@ class __TwigTemplate_4b1c347fcd5bc39914cbfb385266dacc49fc9552f6154c7c8b8eeb06eaa
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['products'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 27
+            // line 32
             echo "            
     </table> 
 <br><br>
 ";
         } else {
-            // line 31
+            // line 36
             echo "    No products have been found.
 ";
         }
-        // line 33
+        // line 38
         echo "
 ";
     }
@@ -111,7 +122,7 @@ class __TwigTemplate_4b1c347fcd5bc39914cbfb385266dacc49fc9552f6154c7c8b8eeb06eaa
 
     public function getDebugInfo()
     {
-        return array (  98 => 33,  94 => 31,  88 => 27,  79 => 25,  75 => 24,  71 => 23,  67 => 22,  63 => 21,  60 => 20,  56 => 19,  46 => 11,  44 => 10,  38 => 6,  35 => 5,  29 => 3,  11 => 1,);
+        return array (  109 => 38,  105 => 36,  99 => 32,  90 => 30,  86 => 29,  82 => 28,  78 => 27,  74 => 26,  71 => 25,  67 => 24,  57 => 16,  55 => 15,  52 => 14,  47 => 12,  45 => 11,  38 => 6,  35 => 5,  29 => 3,  11 => 1,);
     }
 
     public function getSource()
@@ -125,6 +136,11 @@ class __TwigTemplate_4b1c347fcd5bc39914cbfb385266dacc49fc9552f6154c7c8b8eeb06eaa
 <a href=\"/register\">Register</a>&nbsp; &nbsp; 
 <a href=\"/login\">Login</a>
 <br><br>
+
+{% if sessionUser %}
+{{name}}
+{% endif %}
+
 {% if productList %}
     <table border=\"1\">
         <tr>

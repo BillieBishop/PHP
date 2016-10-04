@@ -1,0 +1,29 @@
+/* 
+    Created on : Sep 28, 2016, 1:05:46 PM
+    Author     : Nathalie Desrosiers
+*/
+body{
+    background-color: #422ff4;
+}
+
+#centerContent{
+    width: 500px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #00bbff;
+   
+}
+
+#postAdButton{
+    position: absolute;
+    left: 775px;
+    top: 100px;
+    height:25px;
+    width: 100px;
+}
+
+#viewTable{
+   border: navy 1px solid; 
+   width: 500px;
+   display: inline-table;
+}

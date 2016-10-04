@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quiz 4 board</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/styles.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+
+            var currentID = 0; // 0 means nothing is selected            
+
+            function refreshMessageList() {
+                $.ajax({
+                    url: "/api.php/messages",
+                    // data: {},
+                    type: "GET",
+                    dataType: "json"
+                }).done(function (data) {
+                    var result = '<tr><th>#</th><th>Seller</th><th>Price</th>'
+                            + '<th>Description</th><th></th></tr>';
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        result += '<tr onclick="selectItem(' + item.ID + ')">';
+                        result += '<td>' + item.ID + '</td>';
+                        result += '<td>' + item.sellerName + '</td>';
+                        result += '<td>' + item.price + '</td>';
+                        result += '<td>' + item.description + '</td>';
+                        result += '<td><img onclick="delete" src="/xmark.png" id="delete"></td>';
+                        result += '</tr>';
+                    }
+                    $("#listTable").html(result);
+                });
+            }
+
+            $(document).ajaxError(function () {
+                alert("AJAX request failed");
+            });
+            $(document).ready(function () {
+                refreshTodoList();               
+
+                $("#showAddItem").click(function () {
+                    $("#addPane").show();
+                });
+                $("#postAdButton").click(function () {
+                    // FIXME: verify inputs seem okay,
+                    var sellerNameRaw = $("input[name=sellerName]").val();
+                    var priceRaw = $("input[name=price]").val();
+                    var descriptionRaw = $("input[name=description]").val();
+
+                    // INSERT
+                    $.ajax({
+                        url: "/api.php/messages",
+                        statusCode: {
+                            400: function (xhr) {
+                                var msg = xhr.responseText;
+                                alert("400 received: " + msg);
+                            }
+                        },
+                        data: JSON.stringify({
+                            sellerName: sellerNameRaw,
+                            price: priceRaw,
+                            description: descriptionRaw
+                        }),
+                        type: "POST",
+                        dataType: "json"
+                    }).done(function () {
+                        alert("Addedd successfully.");
+                        refreshMessageList();
+                    });
+                });
+                $("#delete").click(function () {
+                    if (currentID == 0)
+                        return;
+                    $.ajax({
+                        url: "/api.php/messages/" + currentID,
+                        data: {},
+                        type: "DELETE",
+                        dataType: "json"
+                    }).done(function () {
+                        alert("Deleted successfully.");
+                        refreshMessageList();
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>        
+        <div id="centerContent">
+            <!-- upper posting div -->
+            <div id="addPane">               
+                Seller name: <input type="text" name="sellerName"><br>
+                Price: <input type="text" name="price"><br>
+                <textarea rows="5" cols="50" name="description"></textarea><br>
+            
+                <button id="postAdButton">Post ad</button>
+            </div>  
+        
+        <!-- bottom view of items table -->
+        <div id="viewTable">
+            <table id="listTable">
+
+            </table>
+        </div>
+        </div>
+    </body>
+</html>

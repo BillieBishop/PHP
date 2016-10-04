@@ -1,0 +1,26 @@
+/* 
+    Created on : Sep 28, 2016, 1:05:46 PM
+    Author     : Nathalie Desrosiers
+*/
+body{
+    background-color: #422ff4;
+}
+
+#centerContent{
+    width: 750px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #00bbff;
+}
+
+#listPane{
+    border: navy 1px solid;
+    width: 350px;
+    display: inline-table;
+}
+
+#viewAddEditPane{
+   border: navy 1px solid; 
+   width: 350px;
+   display: inline-table;
+}
